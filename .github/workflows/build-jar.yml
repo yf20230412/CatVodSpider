@@ -1,36 +1,38 @@
-name: Build and Package Jar
+名称：构建并打包 Jar
 
-on:
-  push:
-    branches: [ main ]
-  pull_request:
-    branches: [ main ]
+在：
+  推：
+    更改： [主要]
+  响应：
+    更改：[主要]
 
-jobs:
-  build:
-    runs-on: ubuntu-latest
+工作：
+  建造：
+    运行于： ubuntu-latest
 
-    steps:
-    - name: Checkout code
-      uses: actions/checkout@v3
+    脚步：
+    -名称：结帐代码
+      用途：actions/checkout@v3
 
-    - name: Set up JDK 17
-      uses: actions/setup-java@v3
-      with:
-        distribution: 'temurin'
-        java-version: 17
-        
-    - name: Set up Node.js
-     uses: actions/setup-node@v3
-     with:
-     node-version: 14
-     
+    -名称：设置JDK 17
+      用途：actions/setup-java@v3
+      和：
+        分布：'temurin'
+        Java 版本：17
 
-    - name: Build with Maven
-      run: mvn clean package -DskipTests
+    -名称：设置Node.js 20
+      用途：actions/setup-node@v3
+      和：
+        node-version   : 20 # 注意：请确认Node.js 20是否稳定可用，以及您的依赖项是否支持此版本
 
-    - name: Upload jar artifact
-      uses: actions/upload-artifact@v3
-      with:
-        name: my-app-jar
-        path: target/*.jar
+    #如果您的构建流程中需要使用Node.js，则在何处添加相应的Node.js操作
+    #例如运行npm install 或其他Node.js脚本
+
+    -名称：使用 Maven 构建
+      运行： mvn clean package -DskipTests
+
+    -名称：上传jar 文件
+      用途：actions/upload-artifact@v3
+      和：
+        名称： my-app-jar
+        路径：目标/*.jar
