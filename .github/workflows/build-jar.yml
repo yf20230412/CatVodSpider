@@ -22,6 +22,10 @@ jobs:
         distribution: 'temurin'
         java-version: 17 # 根据项目需求调整
 
+- uses: actions/setup-node@v1
+  with:
+    node-version: '18.1' # 或者你想要使用的其他版本
+    
     - name: Cache Maven dependencies
       uses: actions/cache@v3
       with:
