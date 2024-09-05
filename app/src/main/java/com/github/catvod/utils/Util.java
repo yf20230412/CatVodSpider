@@ -13,8 +13,6 @@ import android.webkit.WebViewClient;
 
 import com.github.catvod.spider.Init;
 
-import org.mozilla.universalchardet.UniversalDetector;
-
 import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.util.Arrays;
@@ -55,17 +53,6 @@ public class Util {
     public static boolean isVideoFormat(String url) {
         if (url.contains("url=http") || url.contains(".js") || url.contains(".css") || url.contains(".html")) return false;
         return RULE.matcher(url).find();
-    }
-
-    public static byte[] toUtf8(byte[] bytes) {
-        try {
-            UniversalDetector detector = new UniversalDetector(null);
-            detector.handleData(bytes, 0, bytes.length);
-            detector.dataEnd();
-            return new String(bytes, detector.getDetectedCharset()).getBytes("UTF-8");
-        } catch (Exception e) {
-            return bytes;
-        }
     }
 
     public static boolean isSub(String ext) {

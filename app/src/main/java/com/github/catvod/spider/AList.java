@@ -150,10 +150,10 @@ public class AList extends Spider {
     public String playerContent(String flag, String id, List<String> vipFlags) {
         String[] ids = id.split("~~~");
         String url = getDetail(ids[0]).getUrl();
-        return Result.get().url(url).header(getPlayHeader(url)).subs(getSub(ids)).string();
+        return Result.get().url(url).header(getPlayHeader(url)).subs(getSubs(ids)).string();
     }
 
-    private Map<String, String> getPlayHeader(String url) {
+    private static Map<String, String> getPlayHeader(String url) {
         try {
             Uri uri = Uri.parse(url);
             Map<String, String> header = new HashMap<>();
@@ -244,7 +244,7 @@ public class AList extends Spider {
         return sb.toString();
     }
 
-    private List<Sub> getSub(String[] ids) {
+    private List<Sub> getSubs(String[] ids) {
         List<Sub> sub = new ArrayList<>();
         for (String text : ids) {
             if (!text.contains("@@@")) continue;

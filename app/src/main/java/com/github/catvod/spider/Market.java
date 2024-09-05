@@ -1,19 +1,16 @@
 package com.github.catvod.spider;
 
-import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.net.Uri;
 
 import com.github.catvod.bean.Class;
 import com.github.catvod.bean.Result;
-import com.github.catvod.bean.Vod;
 import com.github.catvod.bean.market.Data;
 import com.github.catvod.bean.market.Item;
 import com.github.catvod.crawler.Spider;
 import com.github.catvod.net.OkHttp;
 import com.github.catvod.utils.FileUtil;
-import com.github.catvod.utils.Notify;
 import com.github.catvod.utils.Path;
 import com.github.catvod.utils.Util;
 
@@ -62,40 +59,23 @@ public class Market extends Spider {
     }
 
     @Override
-    public String detailContent(List<String> ids) throws Exception {
-        Init.run(this::finish);
-        Vod vod = new Vod();
-        vod.setVodPlayFrom("FongMi");
-        vod.setVodPlayUrl("FongMi$FongMi");
-        Init.execute(() -> download(ids.get(0)));
-        return Result.string(vod);
-    }
-
-    private void finish() {
+    public String action(String action) {
         try {
-            Activity activity = Init.getActivity();
-            if (activity != null) activity.finish();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    private void download(String url) {
-        try {
-            if (isBusy()) return;
+            if (isBusy()) return "";
             setBusy(true);
             Init.run(this::setDialog, 500);
-            Response response = OkHttp.newCall(url);
-            File file = Path.create(new File(Path.download(), Uri.parse(url).getLastPathSegment()));
+            Response response = OkHttp.newCall(action);
+            File file = Path.create(new File(Path.download(), Uri.parse(action).getLastPathSegment()));
             download(file, response.body().byteStream(), Double.parseDouble(response.header("Content-Length", "1")));
             if (file.getName().endsWith(".zip")) FileUtil.unzip(file, Path.download());
             if (file.getName().endsWith(".apk")) FileUtil.openFile(file);
-            else Notify.show("下載完成");
-            checkCopy(url);
+            else Result.notify("下載完成");
+            checkCopy(action);
             dismiss();
+            return "";
         } catch (Exception e) {
-            Notify.show(e.getMessage());
             dismiss();
+            return Result.notify(e.getMessage());
         }
     }
 
