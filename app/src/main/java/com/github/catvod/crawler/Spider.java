@@ -46,6 +46,10 @@ public abstract class Spider {
         return "";
     }
 
+    public String liveContent(String url) throws Exception {
+        return "";
+    }
+
     public boolean manualVideoCheck() throws Exception {
         return false;
     }

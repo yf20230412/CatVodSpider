@@ -2,6 +2,9 @@ package com.github.catvod.utils;
 
 import android.os.Environment;
 
+import com.github.catvod.crawler.SpiderDebug;
+import com.github.catvod.spider.Init;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -26,8 +29,20 @@ public class Path {
         return Environment.getExternalStorageDirectory();
     }
 
+    public static File cache() {
+        return Init.context().getCacheDir();
+    }
+
+    public static File files() {
+        return Init.context().getFilesDir();
+    }
+
     public static File tv() {
         return mkdir(new File(root() + File.separator + "TV"));
+    }
+
+    public static File cache(String path) {
+        return mkdir(new File(cache(), path));
     }
 
     public static File tv(String name) {
@@ -71,6 +86,13 @@ public class Path {
         }
     }
 
+    public static void copy(File in, File out) {
+        try {
+            copy(new FileInputStream(in), out);
+        } catch (Exception ignored) {
+        }
+    }
+
     public static void copy(InputStream in, File out) {
         try {
             int read;
@@ -81,6 +103,17 @@ public class Path {
             in.close();
         } catch (Exception ignored) {
         }
+    }
+
+    public static void move(File in, File out) {
+        copy(in, out);
+        clear(in);
+    }
+
+    public static void clear(File dir) {
+        if (dir == null) return;
+        if (dir.isDirectory()) for (File file : list(dir)) clear(file);
+        if (dir.delete()) SpiderDebug.log("Deleted:" + dir.getAbsolutePath());
     }
 
     public static List<File> list(File dir) {

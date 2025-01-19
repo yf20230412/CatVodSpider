@@ -13,6 +13,8 @@ import android.webkit.WebViewClient;
 
 import com.github.catvod.spider.Init;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.util.Arrays;
@@ -25,7 +27,7 @@ public class Util {
 
     public static final Pattern RULE = Pattern.compile("http((?!http).){12,}?\\.(m3u8|mp4|mkv|flv|mp3|m4a|aac)\\?.*|http((?!http).){12,}\\.(m3u8|mp4|mkv|flv|mp3|m4a|aac)|http((?!http).)*?video/tos*");
     public static final Pattern THUNDER = Pattern.compile("(magnet|thunder|ed2k):.*");
-    public static final String CHROME = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36";
+    public static final String CHROME = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36";
     public static final String ACCEPT = "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7";
     public static final List<String> MEDIA = Arrays.asList("mp4", "mkv", "wmv", "flv", "avi", "iso", "mpg", "ts", "mp3", "aac", "flac", "m4a", "ape", "ogg");
     public static final List<String> SUB = Arrays.asList("srt", "ass", "ssa", "vtt");
@@ -121,6 +123,22 @@ public class Util {
         if (var.contains("'")) return var.split("'")[1];
         if (var.contains("\"")) return var.split("\"")[1];
         return "";
+    }
+
+    public static String MD5(File file) {
+        try {
+            MessageDigest digest = MessageDigest.getInstance("MD5");
+            FileInputStream fis = new FileInputStream(file);
+            byte[] bytes = new byte[4096];
+            int count;
+            while ((count = fis.read(bytes)) != -1) digest.update(bytes, 0, count);
+            fis.close();
+            StringBuilder sb = new StringBuilder();
+            for (byte b : digest.digest()) sb.append(Integer.toString((b & 0xff) + 0x100, 16).substring(1));
+            return sb.toString();
+        } catch (Exception e) {
+            return "";
+        }
     }
 
     public static String MD5(String src) {
