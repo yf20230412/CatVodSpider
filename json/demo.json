@@ -1,6 +1,23 @@
 {
-  "spider": "https://fm.t4tv.hz.cz/jar/custom_spider.jar",
+  "spider": "./jar/custom_spider.jar",
   "wallpaper": "http://饭太硬.top/深色壁纸/api.php",
+  "lives": [
+    {
+      "name": "XtreamCode",
+      "api": "csp_XtreamCode",
+      "url": "http://iptv.icsnleb.com:25461/player_api.php?username=12&password=12",
+      "epg": "http://iptv.icsnleb.com:25461/xmltv.php?username=12&password=12",
+      "type": 3,
+      "ext": {
+        "live": true,
+        "vod": true,
+        "formats": [
+          "m3u8",
+          "ts"
+        ]
+      }
+    }
+  ],
   "sites": [
     {
       "key": "本地",
@@ -17,7 +34,7 @@
       "api": "csp_Market",
       "searchable": 0,
       "changeable": 0,
-      "ext": "https://fm.t4tv.hz.cz/json/market.json"
+      "ext": "./json/market.json"
     },
     {
       "key": "push_agent",
@@ -73,27 +90,13 @@
       ]
     }
   ],
+  "proxy": [
+    "raw.githubusercontent.com",
+    "googlevideo.com",
+    "googleapis.com",
+    "youtube.com"
+  ],
   "rules": [
-    {
-      "name": "proxy",
-      "hosts": [
-        "raw.githubusercontent.com",
-        "googlevideo.com",
-        "googleapis.com",
-        "cdn.v82u1l.com",
-        "cdn.iz8qkg.com",
-        "cdn.kin6c1.com",
-        "c.biggggg.com",
-        "c.olddddd.com",
-        "haiwaikan.com",
-        "www.histar.tv",
-        "youtube.com",
-        "uhibo.com",
-        ".*boku.*",
-        ".*nivod.*",
-        ".*ulivetv.*"
-      ]
-    },
     {
       "name": "火山嗅探",
       "hosts": [
